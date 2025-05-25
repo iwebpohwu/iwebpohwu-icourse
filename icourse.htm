@@ -1,0 +1,64 @@
+<table style="height:150px; margin-left: auto; margin-right: auto;" border="1" width="800" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td style="width: 600px;">
+<h1 dir="ltr" style="text-align: center;">預排課程查詢系統</h1>
+<br>
+<p dir="ltr">1.請輸入您的學號並點擊查詢 。</p>
+<p dir="ltr">2.系統開放時間： 每日中午12:00至次日上午9:00（9:00–12:00為系統關機時間）。 各選課階段進行日期： 依行事曆訂定 進入路徑： 系統檢查： 加選時系統將自動檢查衝堂、擋修、重複修讀與課程限制。 不符資格將顯示警示畫面： 有人限課程亂數處理： 出現「尚待亂數處理」訊息者，請於關機後 查詢亂數結果。 超修或低修警示： 學分數超出或低於標準者，下半部視窗將顯示警示，若已完成申請亦會標示。</p>
+<p dir="ltr">3.課程查詢系統在大家常使用的IE、Chrome、手機Chrome瀏覽器都可以正常操作喔。</p>
+</td>
+</tr>
+<p> </p>
+</tbody></table>
+<meta charset="UTF-8">
+<script type="text/javascript">
+function showHint(str)
+{
+var xmlhttp;
+
+        if (window.XMLHttpRequest)
+          {// code for IE7+, Firefox, Chrome, Opera, Safari
+          xmlhttp=new XMLHttpRequest();
+          }
+        else
+          {// code for IE6, IE5
+          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+          }
+        xmlhttp.onreadystatechange=function()
+          {
+                  if (xmlhttp.readyState==4 && xmlhttp.status==200)      
+                  {
+                        var result=xmlhttp.responseText;
+                        var obj = JSON.parse(result);//解析json字串為json物件形式
+                                                
+                        var html = '<table border=1 width=100%>';//
+                        
+                        for (var i = 0; i < obj.length; i ++ ) {//
+                                html  += '<tr>';//
+                                for(j=0;j<obj[i].data.length;j++)
+                                {
+                                  html+= '<td>'+obj[i].data[j]+'</td>'; 
+                                }
+                                html  += '</tr>';            
+                        }
+                        html+="</table>";
+                        
+                        document.getElementById("order_status").innerHTML=html;
+                        if(obj.length==1) //只有一筆代表查不到資料
+                                alert('查無資料');
+                  }
+
+          }
+    var url="https://script.google.com/macros/s/AKfycbzf68HONyhPB862enDeOfIKEZJOt24v9-sxejRLRC4o2kMG598Wss2ng_NX_A454n8T5Q/exec";
+        xmlhttp.open("get",url+"?uid="+encodeURIComponent(str),true);
+        xmlhttp.send();
+}
+</script>
+
+
+
+輸入學號：<input type="text" id="uid">
+<input type="button" name="inq" value="查詢" onclick="showHint(uid.value);"><br>
+
+<span id="order_status"></span>
